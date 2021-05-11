@@ -47,7 +47,8 @@ const Cell: FC<CellProps> = ({ cellId }) => {
 
   return (
     isEditMode ? (
-      <input 
+      <input
+        className={classes.input}
         type="text" 
         ref={inputRef} 
         data-cell-id={cellId} 
@@ -55,7 +56,8 @@ const Cell: FC<CellProps> = ({ cellId }) => {
         onChange={handleCellValueChange}
       />
     ) : (
-      <p 
+      <p  
+        className={classes.label}
         data-cell-id={cellId} 
         onClick={enableEditMode}
       >

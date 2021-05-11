@@ -5,6 +5,7 @@ import SheetSizeState from 'store/SheetSizeState';
 import Cell, { CELL_WIDTH, CELL_HEIGHT } from 'components/Cell';
 import Row from 'components/Row';
 import Column from 'components/Column';
+import classes from 'components/Sheet/styles.module.css';
 
 const Sheet: FC = () => {
   const sheetSize = useRecoilValue(SheetSizeState);
@@ -13,7 +14,7 @@ const Sheet: FC = () => {
   const numberOfColumns = sheetSize.width / CELL_WIDTH;
 
   return (
-    <table>
+    <table className={classes.sheet}>
       <tbody>
         {[...Array(numberOfRows)].map((row, rowIndex) => (
           <Row key={rowIndex}>
