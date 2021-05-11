@@ -1,6 +1,5 @@
 import { FC, useState, useRef, useEffect, ChangeEvent } from 'react';
 import { useRecoilState } from 'recoil';
-import { nanoid } from 'nanoid';
 
 import CellValueState from 'store/CellValueState';
 import classes from 'components/Cell/styles.module.css';
@@ -8,13 +7,15 @@ import classes from 'components/Cell/styles.module.css';
 export const CELL_WIDTH = 100;
 export const CELL_HEIGHT = 25;
 
-const Cell: FC = ({ children }) => {
+interface CellProps {
+  cellId: string;
+}
+
+const Cell: FC<CellProps> = ({ cellId }) => {
   const [cellValue, setCellValue] = useRecoilState(CellValueState); 
 
   const [isEditMode, setIsEditMode] = useState(false);
   const inputRef = useRef(null);
-
-  const cellId = nanoid();
 
   const enableEditMode = () => {
     setIsEditMode(true);
