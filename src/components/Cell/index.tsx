@@ -12,7 +12,7 @@ interface CellProps {
 }
 
 const Cell: FC<CellProps> = ({ cellId }) => {
-  const [cellValue, setCellValue] = useRecoilState(CellValueState); 
+  const [cellValue, setCellValue] = useRecoilState<string | undefined>(CellValueState(cellId)); 
 
   const [isEditMode, setIsEditMode] = useState(false);
   const inputRef = useRef(null);
