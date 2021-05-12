@@ -1,7 +1,8 @@
 import { FC, useState, useRef, useEffect, ChangeEvent } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import CellValueState from 'store/CellValueState';
+import EvaluatedCellValueState from 'store/EvaluatedCellValueState';
 import classes from 'components/Cell/styles.module.css';
 
 export const CELL_WIDTH = 100;
@@ -13,6 +14,7 @@ interface CellProps {
 
 const Cell: FC<CellProps> = ({ cellId }) => {
   const [cellValue, setCellValue] = useRecoilState<string | undefined>(CellValueState(cellId)); 
+  const evaluatedCellValue = useRecoilValue<string>(EvaluatedCellValueState(cellId));
 
   const [isEditMode, setIsEditMode] = useState(false);
   const inputRef = useRef(null);
@@ -61,7 +63,7 @@ const Cell: FC<CellProps> = ({ cellId }) => {
         data-cell-id={cellId} 
         onClick={enableEditMode}
       >
-        {cellValue}
+        {evaluatedCellValue}
       </p>
     ) 
   );
