@@ -8,15 +8,7 @@ import Row from 'components/Row';
 import Column from 'components/Column';
 import Resizer from 'components/Resizer';
 import classes from 'components/Sheet/styles.module.css';
-
-const numberToChar = (value: number): string => {
-  const division = Math.floor(value / 26);
-  const reminder = Math.floor(value % 26);
-
-  const char = String.fromCharCode(reminder + 97).toUpperCase();
-
-  return division -1 >= 0 ? numberToChar(division - 1) + char : char;
-};
+import { numberToChar } from 'utils';
 
 const Sheet: FC = () => {
   const sheetSize = useRecoilValue(SheetSizeState);
@@ -30,7 +22,7 @@ const Sheet: FC = () => {
         <tbody>
           <Row>
             {[...Array(numberOfColumns + 1)].map((column, columnIndex) => (
-              <AxisCell>
+              <AxisCell key={columnIndex}>
                 {columnIndex === 0 ? '' : numberToChar(columnIndex - 1)}
               </AxisCell>
             ))}
