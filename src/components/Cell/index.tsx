@@ -1,4 +1,4 @@
-import { FC, useState, useRef, useEffect, ChangeEvent } from 'react';
+import { FC, useState, useRef, useEffect, ChangeEvent, KeyboardEvent } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import CellValueState from 'store/CellValueState';
@@ -17,7 +17,7 @@ const Cell: FC<CellProps> = ({ cellId }) => {
   const evaluatedCellValue = useRecoilValue<string>(EvaluatedCellValueState(cellId));
 
   const [isEditMode, setIsEditMode] = useState(false);
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const enableEditMode = () => {
     setIsEditMode(true);
@@ -29,6 +29,20 @@ const Cell: FC<CellProps> = ({ cellId }) => {
 
   const handleCellValueChange = (event: ChangeEvent<HTMLInputElement>) => {
     setCellValue(event.target.value);
+  };
+
+  const handleLabelClick = () => {
+    enableEditMode();
+
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
+  }; 
+
+  const unfocusInputField = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      disableEditMode();
+    }
   };
 
   useEffect(() => {
@@ -56,12 +70,13 @@ const Cell: FC<CellProps> = ({ cellId }) => {
         data-cell-id={cellId} 
         value={cellValue}
         onChange={handleCellValueChange}
+        onKeyDown={unfocusInputField}
       />
     ) : (
       <p  
         className={classes.label}
         data-cell-id={cellId} 
-        onClick={enableEditMode}
+        onClick={handleLabelClick}
       >
         {evaluatedCellValue}
       </p>
