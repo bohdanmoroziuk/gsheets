@@ -1,8 +1,9 @@
-import { FC, useState, useRef, useEffect, ChangeEvent, KeyboardEvent } from 'react';
+import { FC, useRef, useEffect, ChangeEvent, KeyboardEvent } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import CellValueState from 'store/CellValueState';
 import EvaluatedCellValueState from 'store/EvaluatedCellValueState';
+import useToggle from 'hooks/useToggle';
 import classes from 'components/Cell/styles.module.css';
 
 export const CELL_WIDTH = 100;
@@ -16,16 +17,13 @@ const Cell: FC<CellProps> = ({ cellId }) => {
   const [cellValue, setCellValue] = useRecoilState<string | undefined>(CellValueState(cellId)); 
   const evaluatedCellValue = useRecoilValue<string>(EvaluatedCellValueState(cellId));
 
-  const [isEditMode, setIsEditMode] = useState(false);
+  const {
+    isOn: isEditMode,
+    on: enableEditMode,
+    off: disableEditMode
+  } = useToggle();
+
   const inputRef = useRef<HTMLInputElement | null>(null);
-
-  const enableEditMode = () => {
-    setIsEditMode(true);
-  };
-
-  const disableEditMode = () => {
-    setIsEditMode(false);
-  };
 
   const handleCellValueChange = (event: ChangeEvent<HTMLInputElement>) => {
     setCellValue(event.target.value);
@@ -59,7 +57,7 @@ const Cell: FC<CellProps> = ({ cellId }) => {
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, [cellId]);
+  }, [cellId, disableEditMode]);
 
   return (
     isEditMode ? (
