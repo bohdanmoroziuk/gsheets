@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { useSetRecoilState } from 'recoil';
 
 import SheetSizeState from 'store/SheetSizeState';
@@ -23,10 +23,6 @@ const Resizer: FC = () => {
     document.removeEventListener('mousemove', drag);
     document.removeEventListener('mouseup', stopDrag);
   };
-
-  useEffect(() => {
-
-  }, []);
 
   return (
     <div 
